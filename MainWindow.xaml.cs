@@ -122,6 +122,8 @@ namespace System_Init_Toolbox___Setup
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            b1.IsEnabled = false;
+            b2.IsEnabled = false;
             string path = "C:/Program Files/Stargazing Studio/System Init Toolbox";
             //如果已经存在默认路径了
             if (Directory.Exists(path))
@@ -156,6 +158,8 @@ namespace System_Init_Toolbox___Setup
                 string desktoppath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 CreateShortcut(desktoppath, "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件",path+"/System Init Toolbox.exe");//创建桌面快捷方式
                 CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建任务栏快捷方式
+                pb.Value = 100;
+                status_label.Content = "安装完成";
             }
             else
             {
@@ -166,6 +170,8 @@ namespace System_Init_Toolbox___Setup
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            b1.IsEnabled = false;
+            b2.IsEnabled = false;
             string path = string.Empty;
             System.Windows.Forms.FolderBrowserDialog scpath = new System.Windows.Forms.FolderBrowserDialog();
             if (scpath.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -190,6 +196,8 @@ namespace System_Init_Toolbox___Setup
                     string desktoppath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     CreateShortcut(desktoppath, "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建桌面快捷方式
                     CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建任务栏快捷方式
+                    pb.Value = 100;
+                    status_label.Content = "安装完成";
                 }
                 else
                 {
