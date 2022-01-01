@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using ICSharpCode.SharpZipLib.Zip;
+using IWshRuntimeLibrary;
 
 namespace System_Init_Toolbox___Setup
 {
@@ -29,7 +30,7 @@ namespace System_Init_Toolbox___Setup
             ZipEntry ent = null;
             string fileName;
 
-            if (!File.Exists(fileToUnZip))
+            if (!System.IO.File.Exists(fileToUnZip))
                 return false;
 
             if (!Directory.Exists(zipedFolder))
@@ -37,7 +38,7 @@ namespace System_Init_Toolbox___Setup
 
             try
             {
-                zipStream = new ZipInputStream(File.OpenRead(fileToUnZip));
+                zipStream = new ZipInputStream(System.IO.File.OpenRead(fileToUnZip));
                 if (!string.IsNullOrEmpty(password)) zipStream.Password = password;
                 while ((ent = zipStream.GetNextEntry()) != null)
                 {
@@ -60,7 +61,7 @@ namespace System_Init_Toolbox___Setup
                             }
                         }
 
-                        fs = File.Create(fileName);
+                        fs = System.IO.File.Create(fileName);
                         int size = 2048;
                         byte[] data = new byte[size];
                         while (true)
@@ -100,6 +101,24 @@ namespace System_Init_Toolbox___Setup
             }
             return result;
         }
+        public static void CreateShortcut(string directory, string shortcutName, string targetPath,
+            string description = null, string iconLocation = null)
+        {
+            if (!System.IO.Directory.Exists(directory))
+            {
+                System.IO.Directory.CreateDirectory(directory);
+            }
+
+            string shortcutPath = Path.Combine(directory, string.Format("{0}.lnk", shortcutName));
+            WshShell shell = new WshShell();
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);//创建快捷方式对象
+            shortcut.TargetPath = targetPath;//指定目标路径
+            shortcut.WorkingDirectory = Path.GetDirectoryName(targetPath);//设置起始位置
+            shortcut.WindowStyle = 1;//设置运行方式，默认为常规窗口
+            shortcut.Description = description;//设置备注
+            shortcut.IconLocation = string.IsNullOrWhiteSpace(iconLocation) ? targetPath : iconLocation;//设置图标路径
+            shortcut.Save();//保存快捷方式
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string path = "C:/Program Files/Stargazing Studio/System Init Toolbox";
@@ -126,9 +145,15 @@ namespace System_Init_Toolbox___Setup
             string targetPath = path;//目标位置 直接默认目录
             bool isrewrite = true; // true=覆盖已存在的同名文件,false则反之
             System.IO.File.Copy(sourcePath, targetPath, isrewrite);//复制~
-            if(UnZip(path + "/win10-x64.zip", path, null))//如果解压成功
+            //解压文件
+            status_label.Content = "解压文件包中...";
+            pb.Value = 75;
+            Delay(1000);
+            if (UnZip(path + "/win10-x64.zip", path, null))//如果解压成功
             {
-
+                System.IO.File.Delete(path + "/win10-x64.zip");//删除残留文件包
+                CreateShortcut("%USERPROFILE%/Desktop", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件",path+"/System Init Toolbox.exe");//创建桌面快捷方式
+                CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建任务栏快捷方式
             }
             else
             {
