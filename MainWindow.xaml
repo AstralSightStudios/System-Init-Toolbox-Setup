@@ -9,7 +9,7 @@
         ui:WindowHelper.UseModernWindowStyle="True"
         Title="安装程序 - System Init Toolbox" Height="370" Width="450" Icon="/appicon.png">
     <Grid>
-        <Label Content="System Init Toolbox" HorizontalAlignment="Left" Margin="25,100,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <Label Content="System Init Toolbox - 离线版本" HorizontalAlignment="Left" Margin="25,100,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Label Content="安装" HorizontalAlignment="Left" Margin="25,49,0,0" VerticalAlignment="Top" FontSize="36"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="320,40,0,0" VerticalAlignment="Top" Width="100" Source="/appicon.png"/>
         <ProgressBar x:Name="pb" HorizontalAlignment="Left" Height="2" Margin="25,200,0,0" VerticalAlignment="Top" Width="395"/>
