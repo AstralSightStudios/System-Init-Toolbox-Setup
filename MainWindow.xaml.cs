@@ -134,7 +134,7 @@ namespace System_Init_Toolbox___Setup
             {
                 //不然就创建
                 Process nf_Process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo("./SetupBATFiles/mkdir_mr.bat");
+                ProcessStartInfo startInfo = new ProcessStartInfo("./mkdir_mr.bat");
                 startInfo.CreateNoWindow = true;//无窗口
                 nf_Process.StartInfo = startInfo;
                 nf_Process.Start();
@@ -148,6 +148,12 @@ namespace System_Init_Toolbox___Setup
             string targetPath = path;//目标位置 直接默认目录
             bool isrewrite = true; // true=覆盖已存在的同名文件,false则反之
             System.IO.File.Copy(sourcePath, targetPath + "/win10-x64.zip", isrewrite);//复制~
+            status_label.Content = "安装字体中...";
+            string fontpath = Environment.GetFolderPath(Environment.SpecialFolder.Fonts);
+            pb.Value = 50;
+            Delay(1000);
+            System.IO.File.Copy("Roboto-Regular.ttf", fontpath + "Roboto-Regular.ttf", isrewrite);//复制Roboto字体
+            System.IO.File.Copy("SourceHanSansSC-Regular.otf", fontpath + "SourceHanSansSC-Regular.otf", isrewrite);//复制SourceHanSansSC字体
             //解压文件
             status_label.Content = "解压文件包中...";
             pb.Value = 75;
