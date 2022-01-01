@@ -145,7 +145,7 @@ namespace System_Init_Toolbox___Setup
             string sourcePath = "win10-x64.zip";//自解压后程序压缩包名
             string targetPath = path;//目标位置 直接默认目录
             bool isrewrite = true; // true=覆盖已存在的同名文件,false则反之
-            System.IO.File.Copy(sourcePath, targetPath, isrewrite);//复制~
+            System.IO.File.Copy(sourcePath, targetPath + "/win10-x64.zip", isrewrite);//复制~
             //解压文件
             status_label.Content = "解压文件包中...";
             pb.Value = 75;
@@ -153,7 +153,8 @@ namespace System_Init_Toolbox___Setup
             if (UnZip(path + "/win10-x64.zip", path, null))//如果解压成功
             {
                 System.IO.File.Delete(path + "/win10-x64.zip");//删除残留文件包
-                CreateShortcut("%USERPROFILE%/Desktop", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件",path+"/System Init Toolbox.exe");//创建桌面快捷方式
+                string desktoppath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                CreateShortcut(desktoppath, "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件",path+"/System Init Toolbox.exe");//创建桌面快捷方式
                 CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建任务栏快捷方式
             }
             else
@@ -178,7 +179,7 @@ namespace System_Init_Toolbox___Setup
                 string sourcePath = "win10-x64.zip";//自解压后程序压缩包名
                 string targetPath = path;//目标位置 直接默认目录
                 bool isrewrite = true; // true=覆盖已存在的同名文件,false则反之
-                System.IO.File.Copy(sourcePath, targetPath, isrewrite);//复制~
+                System.IO.File.Copy(sourcePath, targetPath + "/win10-x64.zip", isrewrite);//复制~
                                                                        //解压文件
                 status_label.Content = "解压文件包中...";
                 pb.Value = 75;
@@ -186,7 +187,8 @@ namespace System_Init_Toolbox___Setup
                 if (UnZip(path + "/win10-x64.zip", path, null))//如果解压成功
                 {
                     System.IO.File.Delete(path + "/win10-x64.zip");//删除残留文件包
-                    CreateShortcut("%USERPROFILE%/Desktop", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建桌面快捷方式
+                    string desktoppath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    CreateShortcut(desktoppath, "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建桌面快捷方式
                     CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建任务栏快捷方式
                 }
                 else
