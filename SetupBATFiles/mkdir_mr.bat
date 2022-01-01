@@ -1,0 +1,1 @@
+mkdir "C:/Program Files/Stargazing Studio/System Init Toolbox"
