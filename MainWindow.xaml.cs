@@ -10,9 +10,14 @@ namespace System_Init_Toolbox___Setup
 {
     public partial class MainWindow : Window
     {
+        public static bool uninstallmode = false;
         public MainWindow()
         {
             InitializeComponent();
+            if (System.IO.File.Exists("C:/Program Files/Stargazing Studio/System Init Toolbox/System Init Toolbox.exe") || System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/installed"))
+            {
+                DialogViewer.dialog_uninstall_view(maintext,b1,b2,b3,status_label);
+            }
         }
         public static void Delay(int mm)
         {
@@ -164,8 +169,18 @@ namespace System_Init_Toolbox___Setup
                 string desktoppath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 CreateShortcut(desktoppath, "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件",path+"/System Init Toolbox.exe");//创建桌面快捷方式
                 CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建任务栏快捷方式
+                System.IO.File.Create("SetupBATFiles/mkdir_appdata.bat");
+                System.IO.File.WriteAllText("SetupBATFiles/mkdir_appdata.bat","mkdir \"" + Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox" + " \"");
+                System.Diagnostics.Process.Start("SetupBATFiles/mkdir_appdata.bat");
+                System.IO.File.Create(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/installed");
+                System.IO.File.Create(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/install_PATH");
+                System.IO.File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/install_PATH",path);
                 pb.Value = 100;
                 status_label.Content = "安装完成";
+                b1.Opacity = 0;
+                b2.Opacity = 0;
+                b3.Opacity = 100;
+                b3.IsEnabled = true;
             }
             else
             {
@@ -173,7 +188,11 @@ namespace System_Init_Toolbox___Setup
                 Environment.Exit(0);
             }
         }
-
+        private async void installed(object sender, RoutedEventArgs e)
+        {
+            b1.Opacity = 0;
+            b2.Opacity = 0;
+        }
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             b1.IsEnabled = false;
@@ -202,8 +221,18 @@ namespace System_Init_Toolbox___Setup
                     string desktoppath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     CreateShortcut(desktoppath, "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建桌面快捷方式
                     CreateShortcut(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs", "System Init Toolbox", path + "/System Init Toolbox.exe", "【System Init Toolbox · 系统初始化工具箱】一个能让你在安装系统后快速安装运行库等必备程序的软件", path + "/System Init Toolbox.exe");//创建任务栏快捷方式
+                    System.IO.File.Create("SetupBATFiles/mkdir_appdata.bat");
+                    System.IO.File.WriteAllText("SetupBATFiles/mkdir_appdata.bat", "mkdir \"" + Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox" + " \"");
+                    System.Diagnostics.Process.Start("SetupBATFiles/mkdir_appdata.bat");
+                    System.IO.File.Create(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/installed");
+                    System.IO.File.Create(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/install_PATH");
+                    System.IO.File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/install_PATH", path);
                     pb.Value = 100;
                     status_label.Content = "安装完成";
+                    b1.Opacity = 0;
+                    b2.Opacity = 0;
+                    b3.Opacity = 100;
+                    b3.IsEnabled = true;
                 }
                 else
                 {
@@ -220,6 +249,18 @@ namespace System_Init_Toolbox___Setup
                     CloseButtonText = "Ok"
                 };
                 ContentDialogResult result = await noselectDialog.ShowAsync();
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (!uninstallmode)
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                DialogViewer.dialog_real_uninstall(status_label,pb,b3);
             }
         }
     }

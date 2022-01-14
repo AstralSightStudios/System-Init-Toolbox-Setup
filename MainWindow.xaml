@@ -10,11 +10,12 @@
         Title="安装程序 - System Init Toolbox" Height="370" Width="450" Icon="/appicon.png">
     <Grid>
         <Label Content="System Init Toolbox" HorizontalAlignment="Left" Margin="25,100,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <Label Content="安装" HorizontalAlignment="Left" Margin="25,49,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label x:Name="maintext" Content="安装" HorizontalAlignment="Left" Margin="25,49,0,0" VerticalAlignment="Top" FontSize="36"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="320,40,0,0" VerticalAlignment="Top" Width="100" Source="/appicon.png"/>
         <ProgressBar x:Name="pb" HorizontalAlignment="Left" Height="2" Margin="25,200,0,0" VerticalAlignment="Top" Width="395"/>
         <Label x:Name="status_label" Content="等待安装..." HorizontalAlignment="Center" Margin="0,209,0,0" VerticalAlignment="Top"/>
         <Button x:Name="b1" Content="安装到默认路径" Margin="81,270,0,0" VerticalAlignment="Top" Click="Button_Click"/>
         <Button x:Name="b2" Content="安装到自选路径" Margin="254,270,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button x:Name="b3" Content="关闭安装程序" Margin="164,270,0,0" VerticalAlignment="Top" Click="Button_Click_2" IsEnabled="False" Opacity="0"/>
     </Grid>
 </Window>
