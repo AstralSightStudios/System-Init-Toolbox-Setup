@@ -20,7 +20,7 @@ namespace System_Init_Toolbox___Setup
             if (result == ContentDialogResult.Secondary)
             {
                 MainWindow.uninstallmode = true;
-                b3.Content = "卸载";
+                b3.Content = "卸载这个程序";
                 maintext.Content = "卸载";
                 b1.IsEnabled = false;
                 b2.IsEnabled = false;
@@ -49,11 +49,14 @@ namespace System_Init_Toolbox___Setup
             {
                 status_label.Content = "正在删除文件...";
                 pb.Value = 50;
-                System.IO.Directory.Delete(System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/install_PATH"));
+                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(System.IO.File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/install_PATH"));
+                di.Delete(true);
                 pb.Value = 85;
                 status_label.Content = "正在删除快捷方式...";
                 System.IO.File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\System Init Toolbox.lnk");
                 System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/System Init Toolbox.lnk");
+                System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/install_PATH");
+                System.IO.File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/AppData/Local/Stargazing Studio/System Init Toolbox/installed");
                 pb.Value = 100;
                 status_label.Content = "卸载完毕";
                 MainWindow.uninstallmode = false;
